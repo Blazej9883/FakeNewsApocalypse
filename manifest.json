@@ -1,0 +1,36 @@
+{
+  "name": "Fake News Apocalypse",
+  "version": "1.0",
+  "description": "Test app",
+  "permissions" : ["activeTab","declarativeContent", "storage","identity"],
+  "background": {
+    "page": "background.html"
+
+  },
+  "content_scripts": [{
+    "matches": ["https://*.google.com/*"],
+    "css": ["css/contentStyle.css"],
+    "js": [ "js/jquery.js","js/contentScript.js" ]
+  }],
+  "browser_action" : {
+    "default_popup" : "credentials.html",
+    "default_icon" : {
+      "128" : "images/logo.png"
+    }
+  },
+  "icons": {
+    "128" : "images/logo.png"
+  },
+  "options_page": "options.html",
+  "manifest_version": 2,
+  "content_security_policy":"script-src 'self' https://code.jquery.com/jquery-3.4.1.slim.min.js https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js https://apis.google.com https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+  "oauth2": {
+    "client_id": "572037985974-gb07sp7jlqp89s71iutik5v9iqvmg0t1.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnVtiOTYWSAKLwdZhHk6tW5cQ4KTvapWDyXwIt8HTx7zIVV4FjBFsRYqG/stRrmqSUyfMDdmPMBaH9bj7kV3JryWWDf1DVD0jffwQP2vV5IyHercmLbTbjc5asxv+kXT1hOMlYNiEy/Fx4+yn+GtWF2EWLolLIF+5ENCIB8c9GFi2+JeRvpjA+SFLjIOBduvWf6VJHqQ7PL/HulPl84iJkehgVsOTmeQou1neJkjWqXK0cZ+dReHA4aDNXRzwPVLuVbCwbJpxp25rEjpVEaW36V4xJ1ZHvfur1NO9bkKN9h4gGG4kjYIhjGzYfh2aFj8QaN6oBTuvejEP+JNt2Fvs6wIDAQAB"
+}
+
