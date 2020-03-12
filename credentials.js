@@ -1,6 +1,25 @@
+// Initialize Firebase
+
+/**
+ * initApp handles setting up the Firebase context and registering
+ * callbacks for the auth status.
+ *
+ * The core initialization is in firebase.App - this is the glue class
+ * which stores configuration. We provide an app name here to allow
+ * distinguishing multiple app instances.
+ *
+ * This method also registers a listener with firebase.auth().onAuthStateChanged.
+ * This listener is called when the user is signed in or out, and that
+ * is where we update the UI.
+ *
+ * When signed in, we also authenticate to the Firebase Realtime Database.
+ */
+
+
 // TODO(DEVELOPER): Change the values below using values from the initialization snippet: Firebase Console > Overview > Add Firebase to your web app.
 // Initialize Firebase
 var config = {
+    authDomain: 'fake-news-apocalypse.firebaseapp.com',
     apiKey: 'AIzaSyC_H94FUWOgYvWaEiswq3yFik1nFb-dFVE',
     databaseURL: 'https://fake-news-apocalypse.firebaseio.com',
     storageBucket: 'fake-news-apocalypse.appspot.com'
@@ -38,6 +57,7 @@ function initApp() {
             var providerData = user.providerData;
             // [START_EXCLUDE]
             document.getElementById('quickstart-button').textContent = 'Sign out';
+            document.getElementById('quickstart-button-fb').textContent = 'Sign out';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
             // [END_EXCLUDE]
@@ -45,11 +65,15 @@ function initApp() {
             // Let's try to get a Google auth token programmatically.
             // [START_EXCLUDE]
             document.getElementById('quickstart-button').textContent = 'Sign-in with Google';
+            document.getElementById('quickstart-button-fb').textContent = 'Sign in with Facebook';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             // document.getElementById('quickstart-account-details').textContent = 'null';
             // [END_EXCLUDE]
         }
         document.getElementById('quickstart-button').disabled = false;
+        document.getElementById('quickstart-button-fb').disabled = false;
+
+
     });
     // [END authstatelistener]
 
@@ -93,6 +117,8 @@ function startFacebookAuth() {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
+
+        console.log(user);
         // ...
     }).catch(function(error) {
         // Handle Errors here.
@@ -103,13 +129,20 @@ function startFacebookAuth() {
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         // ...
+        console.error(error);
     });
 }
 /**
  * Starts the sign-in process.
  */
 function startSignInGoogle() {
-
+    document.getElementById('quickstart-button').disabled = true;
+    if (firebase.auth().currentUser) {
+        console.log(firebase.auth().currentUser);
+        firebase.auth().signOut();
+    } else {
+        startAuth(true);
+    }
 }
 function startSignInFacebook() {
     document.getElementById('quickstart-button-fb').disabled = true;
@@ -123,3 +156,4 @@ function startSignInFacebook() {
 window.onload = function() {
     initApp();
 };
+
