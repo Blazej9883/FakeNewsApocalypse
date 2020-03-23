@@ -56,36 +56,38 @@ function initApp() {
             var uid = user.uid;
             var providerData = user.providerData;
             // [START_EXCLUDE]
-            document.getElementById('quickstart-button').textContent = 'Sign out';
-            document.getElementById('quickstart-button-fb').textContent = 'Sign out';
+            // document.getElementById('quickstart-button').textContent = 'Sign out';
+            // document.getElementById('quickstart-button-fb').textContent = 'Sign out';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+            window.location.href = "http://www.w3schools.com";
             // [END_EXCLUDE]
         } else {
             // Let's try to get a Google auth token programmatically.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-button').textContent = 'Sign-in with Google';
-            document.getElementById('quickstart-button-fb').textContent = 'Sign in with Facebook';
+            // document.getElementById('quickstart-button').textContent = 'Sign-in with Google';
+            // document.getElementById('quickstart-button-fb').textContent = 'Sign in with Facebook';
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             // document.getElementById('quickstart-account-details').textContent = 'null';
             // [END_EXCLUDE]
         }
-        document.getElementById('quickstart-button').disabled = false;
-        document.getElementById('quickstart-button-fb').disabled = false;
+        // document.getElementById('quickstart-button').disabled = false;
+        // document.getElementById('quickstart-button-fb').disabled = false;
 
 
     });
     // [END authstatelistener]
 
     document.getElementById('quickstart-button').addEventListener('click', startSignInGoogle, false);
-    document.getElementById('quickstart-button-fb').addEventListener('click', startSignInFacebook, false)
+    document.getElementById('quickstart-button-fb').addEventListener('click', startSignInFacebook, false);
+    document.getElementById('quickstart-button-twitter').addEventListener('click', startSigninTwitter, false)
 }
 
 /**
  * Start the auth flow and authorizes to Firebase.
  * @param{boolean} interactive True if the OAuth flow should request with an interactive mode.
  */
-function startAuth(interactive) {
+function startGoogleAuth(interactive) {
     // Request an OAuth token from the Chrome Identity API.
     chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
         if (chrome.runtime.lastError && !interactive) {
@@ -99,7 +101,7 @@ function startAuth(interactive) {
                 // The OAuth token might have been invalidated. Lets' remove it from cache.
                 if (error.code === 'auth/invalid-credential') {
                     chrome.identity.removeCachedAuthToken({token: token}, function() {
-                        startAuth(interactive);
+                        startGoogleAuth(interactive);
                     });
                 }
             });
@@ -132,26 +134,51 @@ function startFacebookAuth() {
         console.error(error);
     });
 }
+
+function startTwitterAuth() {
+    var provider = new firebase.auth.TwitterAuthProvider();
+
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+        var token = result.credential.accessToken;
+        var secret = result.credential.secret;
+
+        var user = result.user;
+        console.log(user);
+    }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        var email = error.email;
+
+        var credential = error.credential;
+    });
+}
 /**
  * Starts the sign-in process.
  */
 function startSignInGoogle() {
-    document.getElementById('quickstart-button').disabled = true;
     if (firebase.auth().currentUser) {
         console.log(firebase.auth().currentUser);
         firebase.auth().signOut();
     } else {
-        startAuth(true);
+        startGoogleAuth(true);
     }
 }
 function startSignInFacebook() {
-    document.getElementById('quickstart-button-fb').disabled = true;
     if (firebase.auth().currentUser) {
         console.log(firebase.auth().currentUser);
         firebase.auth().signOut();
     } else {
         startFacebookAuth();
     }
+}
+function startSigninTwitter() {
+    if(firebase.auth().currentUser) {
+        console.log(firebase.auth().currentUser)
+    } else {
+        startTwitterAuth();
+    }
+
 }
 window.onload = function() {
     initApp();
