@@ -76,7 +76,11 @@ function initApp() {
 
 
     });
+
+
+
     // [END authstatelistener]
+    document.getElementById('logout').addEventListener('click', logout, false);
 
     document.getElementById('quickstart-button').addEventListener('click', startSignInGoogle, false);
     document.getElementById('quickstart-button-fb').addEventListener('click', startSignInFacebook, false);
@@ -121,6 +125,8 @@ function startFacebookAuth() {
         var user = result.user;
 
         console.log(user);
+        // window.location.href="main.html";
+
         // ...
     }).catch(function(error) {
         // Handle Errors here.
@@ -144,6 +150,11 @@ function startTwitterAuth() {
 
         var user = result.user;
         console.log(user);
+        if(user){
+            chrome.browserAction.setPopup({
+                popup: "main.html"
+            });
+        }
     }).catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -156,6 +167,10 @@ function startTwitterAuth() {
 /**
  * Starts the sign-in process.
  */
+
+function logout() {
+    firebase.auth().signOut();
+}
 function startSignInGoogle() {
     if (firebase.auth().currentUser) {
         console.log(firebase.auth().currentUser);

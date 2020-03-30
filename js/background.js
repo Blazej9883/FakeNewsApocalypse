@@ -7,6 +7,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
+
+
 /**
  * initApp handles setting up the Firebase context and registering
  * callbacks for the auth status.
@@ -30,4 +33,8 @@ function initApp() {
 
 window.onload = function() {
     initApp();
+
+
+
+
 };
