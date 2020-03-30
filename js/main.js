@@ -17,8 +17,16 @@ function initApp() {
         } else {
             console.log("pizda");
             window.location.href = "credentials.html";
+            chrome.browserAction.setPopup({
+                popup: "credentials.html"
+            });
         }
     });
+    document.getElementById('logout').addEventListener('click', logout, false);
+}
+
+function logout() {
+    firebase.auth().signOut();
 }
 
 window.onload = function() {

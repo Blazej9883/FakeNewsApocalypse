@@ -17,10 +17,37 @@
 </head>
 <body>
 <h3>Fake news apocalypse</h3>
+<div class="reason">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="obvious_fake">
+        <label class="form-check-label" for="obvious_fake">
+            Obvious fake
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="probably_fake">
+        <label class="form-check-label" for="probably_fake">
+            Probably fake
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="one_sided">
+        <label class="form-check-label" for="one_sided">
+            One sided
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="clickbait">
+        <label class="form-check-label" for="clickbait">
+            Clickbait
+        </label>
+    </div>
+</div>
 
-
-
-<button class="logout">Log out</button>
+<label for="customRange2">Example range</label>
+<input type="range" class="custom-range" min="0" max="5" id="customRange2">
+<button type="submit" class="btn btn-primary">Submit</button>
+<button id="logout">Log out</button>
 
     <p>
         Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
