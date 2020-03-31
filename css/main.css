@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@import url(https://fonts.googleapis.com/css?family=Dosis:700);
 
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
@@ -57,4 +58,56 @@ h3 {
     background-size: 40px;
     padding-left: 50px;
     line-height: 40px;
+}
+
+
+/*slider*/
+
+body {
+    font-family: "Dosis", Helvetica, Arial, sans-serif;
+    background: #ecf0f1;
+    color: #34495e;
+    padding-top: 5px;
+    text-shadow: white 1px 1px 1px;
+}
+#slider {
+    margin-top: 15px;
+}
+.value {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+    width: 300px;
+    height: 50px;
+    line-height: 60px;
+    margin: 5px auto;
+    letter-spacing: -.07em;
+    text-shadow: white 2px 2px 2px;
+}
+input[type="range"] {
+    display: block;
+    -webkit-appearance: none;
+    background-color: #bdc3c7;
+    width: 300px;
+    height: 5px;
+    border-radius: 5px;
+    margin: 0 auto;
+    outline: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #e74c3c;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}​
+ input[type="range"]::-webkit-slider-thumb:hover {
+     background-color: white;
+     border: 2px solid #e74c3c;
+ }
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
 }

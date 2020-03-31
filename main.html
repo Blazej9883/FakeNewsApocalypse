@@ -8,6 +8,9 @@
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+
+    </style>
     <!-- ***************************************************************************************
          * TODO(DEVELOPER): Make sure you are importing the latest version of the Firebase JS. *
          *************************************************************************************** -->
@@ -17,6 +20,8 @@
 </head>
 <body>
 <h3>Fake news apocalypse</h3>
+
+<!--FORM-->
 <div class="reason">
     <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="obvious_fake">
@@ -44,8 +49,12 @@
     </div>
 </div>
 
-<label for="customRange2">Example range</label>
-<input type="range" class="custom-range" min="0" max="5" id="customRange2">
+
+<!--SLIDER-->
+<input id="slider" type="range" min="0" max="10" step="1" value="0">
+<div class="value">0</div>
+
+<!--BUTTONS-->
 <button type="submit" class="btn btn-primary">Submit</button>
 <button id="logout">Log out</button>
 
@@ -57,7 +66,9 @@
 </div><script src="js/jquery.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+
 <script src="js/credentials.js"></script>
 <script src="js/main.js"></script>
+
 </body>
 </html>

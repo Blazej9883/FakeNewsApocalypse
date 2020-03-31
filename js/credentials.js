@@ -84,7 +84,7 @@ function initApp() {
 
     document.getElementById('quickstart-button').addEventListener('click', startSignInGoogle, false);
     document.getElementById('quickstart-button-fb').addEventListener('click', startSignInFacebook, false);
-    document.getElementById('quickstart-button-twitter').addEventListener('click', startSigninTwitter, false)
+    document.getElementById('quickstart-button-twitter').addEventListener('click', startSignInTwitter, false)
 }
 
 /**
@@ -185,7 +185,7 @@ function startSignInFacebook() {
         startFacebookAuth();
     }
 }
-function startSigninTwitter() {
+function startSignInTwitter() {
     if(firebase.auth().currentUser) {
         console.log(firebase.auth().currentUser)
     } else {
