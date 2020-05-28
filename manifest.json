@@ -2,7 +2,7 @@
   "name": "Fake News Apocalypse",
   "version": "1.0",
   "description": "Test app",
-  "permissions" : ["activeTab","declarativeContent", "storage","identity"],
+  "permissions" : ["tabs","activeTab","declarativeContent", "storage","identity"],
   "background": {
     "page": "background.html"
 

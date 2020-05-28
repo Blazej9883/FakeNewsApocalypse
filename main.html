@@ -14,7 +14,9 @@
     <!-- ***************************************************************************************
          * TODO(DEVELOPER): Make sure you are importing the latest version of the Firebase JS. *
          *************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-database.js"></script>
+
 
     <!--    <script src="credentials.js"></script>-->
 </head>
@@ -22,7 +24,7 @@
 <h3>Fake news apocalypse</h3>
 
 <!--FORM-->
-<div class="reason">
+<form id="reason">
     <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="obvious_fake">
         <label class="form-check-label" for="obvious_fake">
@@ -47,21 +49,21 @@
             Clickbait
         </label>
     </div>
-</div>
+
 
 
 <!--SLIDER-->
 <input id="slider" type="range" min="0" max="10" step="1" value="0">
-<div class="value">0</div>
+<div id="rating" class="value">0</div>
 
 <!--BUTTONS-->
-<button type="submit" class="btn btn-primary">Submit</button>
+<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+</form>
+
 <button id="logout">Log out</button>
 
     <p>
         Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-        <!--    <div>Firebase auth <code>currentUser</code> object value:</div>-->
-        <!--    <pre><code id="quickstart-account-details">null</code></pre>-->
     </p>
 </div><script src="js/jquery.js"></script>
 <script src="js/popper.min.js"></script>
