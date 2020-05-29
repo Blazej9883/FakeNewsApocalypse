@@ -1,12 +1,7 @@
 
-var config = {
-    authDomain: 'fake-news-apocalypse.firebaseapp.com',
-    apiKey: 'AIzaSyC_H94FUWOgYvWaEiswq3yFik1nFb-dFVE',
-    databaseURL: 'https://fake-news-apocalypse.firebaseio.com',
-    storageBucket: 'fake-news-apocalypse.appspot.com'
-};
-firebase.initializeApp(config);
 
+
+const database = firebase.database();
 
 
 
@@ -28,6 +23,20 @@ function initApp() {
         }
 
     });
+
+    chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+        console.log("initApp:chrome tabs")
+        var url = tabs[0].url;
+        console.log("initApp: " + url)
+
+
+        checkScore(url)
+
+
+
+        // use `url` here inside the callback because it's asynchronous!
+    });
+
     //slider
     var elem = document.querySelector('input[type="range"]');
 
@@ -42,6 +51,28 @@ function initApp() {
     document.getElementById('reason').addEventListener('submit', submitForm, false);
     document.getElementById('logout').addEventListener('click', logout, false);
 }
+//checkers
+function checkScore(url) {
+    var ratingsRef = firebase.database().ref("reviews");
+    ratingsRef.orderByChild("news").equalTo(url).on("value", function(snapshot) {
+        console.log(snapshot.val());
+        var scores = snapshot.val();
+        var keys = Object.keys(scores);
+        console.log(keys);
+        for(var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+
+            var score = scores[k].score;
+            console.log(score);
+            document.getElementById("score").textContent = score.toString();
+
+        }
+        // var rating = snapshot.val().key;
+        // console.log("score:"+ rating.score)
+    }, function (error) {
+        console.log("Error: " + error.code);
+    });
+}
 
 function checkCheckbox(id) {
     var state = document.getElementById(id);
@@ -53,9 +84,9 @@ function checkCheckbox(id) {
         return false;
     }
 }
-
+//submiters
 function submitForm(e) {
-    const database = firebase.database();
+
     console.log("submitForm: initilazing")
     e.preventDefault();
     var obvious = checkCheckbox('obvious_fake');
@@ -71,12 +102,10 @@ function submitForm(e) {
 
     console.log("submitForm:" + reason)
 
-    var rating = document.getElementById('rating').innerText;
-    var username = "wpm"
-    var email = "sasa"
+    var score = document.getElementById('rating').innerText;
 
     console.log("submitForm:" + rating )
-    var url = "jebac kenie"
+
 
 
 
@@ -86,9 +115,8 @@ function submitForm(e) {
         var url = tabs[0].url;
         console.log("submitForm:" + url)
 
-        alert(url);
 
-        submitReview(url,uid, reason, rating);
+        submitReview(url,uid, reason, score);
 
         // use `url` here inside the callback because it's asynchronous!
     });
@@ -124,7 +152,7 @@ function submitReview(url_site, uid, reason, score){
         }
     });
 
-    firebase.database().ref('reviews/' +  url).push({
+    firebase.database().ref('reviews').push({
         news: url_site,
         rating_count: 1,
         reason: reason,
