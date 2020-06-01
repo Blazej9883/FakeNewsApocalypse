@@ -55,18 +55,23 @@ function initApp() {
 function checkScore(url) {
     var ratingsRef = firebase.database().ref("reviews");
     ratingsRef.orderByChild("news").equalTo(url).on("value", function(snapshot) {
-        console.log(snapshot.val());
+        console.log("checkScore: snapshot of data: " + snapshot.val());
         var scores = snapshot.val();
-        var keys = Object.keys(scores);
-        console.log(keys);
-        for(var i = 0; i < keys.length; i++) {
-            var k = keys[i];
+        if(scores){
+            var keys = Object.keys(scores);
+            console.log("checkScore: keys: " + keys);
+            for(var i = 0; i < keys.length; i++) {
+                var k = keys[i];
 
-            var score = scores[k].score;
-            console.log(score);
-            document.getElementById("score").textContent = score.toString();
+                var score = scores[k].score;
+                console.log("checkScore: score:" + score);
+                document.getElementById("score").textContent = score.toString();
 
+            }
+        }else{
+            console.log("checkScore: article not reviewed")
         }
+
         // var rating = snapshot.val().key;
         // console.log("score:"+ rating.score)
     }, function (error) {
@@ -90,21 +95,21 @@ function submitForm(e) {
     console.log("submitForm: initilazing")
     e.preventDefault();
     var obvious = checkCheckbox('obvious_fake');
-    console.log("submitForm:" + obvious)
+    // console.log("submitForm:" + obvious)
     var probably = checkCheckbox('probably_fake');
-    console.log("submitForm:" + probably)
+    // console.log("submitForm:" + probably)
     var sided = checkCheckbox('one_sided');
-    console.log("submitForm:" + sided)
+    // console.log("submitForm:" + sided)
     var clickbait = checkCheckbox('clickbait');
-    console.log("submitForm:" + clickbait)
+    // console.log("submitForm:" + clickbait)
 
     var reason = [obvious, probably, sided, clickbait];
 
-    console.log("submitForm:" + reason)
+    // console.log("submitForm:" + reason)
 
     var score = document.getElementById('rating').innerText;
 
-    console.log("submitForm:" + rating )
+    // console.log("submitForm:" + rating )
 
 
 
@@ -116,54 +121,73 @@ function submitForm(e) {
         console.log("submitForm:" + url)
 
 
-        submitReview(url,uid, reason, score);
+        submitReview(url,uid, reason, score,e);
 
         // use `url` here inside the callback because it's asynchronous!
     });
-
-
-
-
-
-
-
 }
 
-function submitReview(url_site, uid, reason, score){
+function submitReview(url_site, uid, reason, score,e){
 
-
+    e.preventDefault();
     var url = url_site.toString().replace("https://", "");
     var url = url.toString().split("/", 1);
     var url = url.toString().replace("www.","")
     var url = url.toString().split(".",1)
 
-
-    alert(url);
+    console.log("submitReview: starting")
     firebase.database().ref('user_reviews/' + uid).push({
         news: url_site,
         reason: reason,
         score: score
     }, function (error) {
         if(error) {
-            alert('error')
+            console.log("submitReview: user_reviews: " + error);
         }else{
-            alert('data saved succesfully')
-
+            console.log("submitReview: data saved succesfully to user_reviews")
         }
     });
 
-    firebase.database().ref('reviews').push({
-        news: url_site,
-        rating_count: 1,
-        reason: reason,
-        score: score
-    }, function (error) {
-        if(error) {
-            alert('error')
-        }else{
-            alert('data saved succesfully')
+    var ratingsRef = firebase.database().ref("reviews");
+    ratingsRef.orderByChild("news").equalTo(url_site).on("value", function (snapshot) {
+        var scores = snapshot.val();
+        console.log("submitReview: snapshot of reviews:" + scores);
+        if(scores){
+            console.log("submitReview: snapshot not null")
+            // console.log(snapshot.child);
+            var keys = Object.keys(scores);
+
+            console.log(keys);
+
+            var scoreRef = firebase.database().ref("reviews/"+ keys);
+            scoreRef.transaction(function (review) {
+                console.log("scoreRef:")
+                console.log(review)
+                    review.rating_count++;
+                    return;
+            })
+            // scoreRef.on("value", function (snapshot) {
+            //     console.log("subitReview: scoreRef:")
+            //     console.log(snapshot.val());
+            //
+            // })
+        }else {
+            console.log("submitReview: snapshot null")
+            firebase.database().ref('reviews').push({
+                news: url_site,
+                rating_count: 1,
+                reason: reason,
+                score: score
+            }, function (error) {
+                if(error) {
+                    console.log("submitReview: reviews: " + error);
+                }else{
+                    console.log("submitReview: data saved succesfully to reviews")
+                }
+            });
         }
-    });
+    })
+
 
 
 
