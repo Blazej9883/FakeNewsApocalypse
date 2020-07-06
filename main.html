@@ -24,7 +24,7 @@
 <h3>Fake news apocalypse</h3>
 
 <div id="score">
-    Nobody reviewed. Be the first one!
+    <h4 id="score-h4">Nobody reviewed. Be the first one!</h4>
 </div>
 
 <!--FORM-->
@@ -57,18 +57,23 @@
 
 
 <!--SLIDER-->
-<input id="slider" type="range" min="0" max="10" step="1" value="0">
-<div id="rating" class="value">0</div>
+    <div class="slider-cont">
+        <input id="slider" type="range" min="0" max="10" step="1" value="0">
+        <div id="rating" class="value">0</div>
+    </div>
+
 
 <!--BUTTONS-->
-<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+    <div class="buttons"><button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button></div>
+
 </form>
 
-<button class="btn btn-secondary" id="logout">Log out</button>
 
-    <p>
-        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-    </p>
+
+<!--    <p>-->
+<!--        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>-->
+<!--    </p>-->
 </div><script src="js/jquery.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

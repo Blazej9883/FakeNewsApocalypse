@@ -111,3 +111,28 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:active {
     transform: scale(1.2);
 }
+
+#logout-btn {
+    text-align: right;
+    margin-left: auto;
+}
+.buttons {
+    text-align: center;
+    display: block;
+    margin-top: 50px;
+}
+#submit-btn{
+
+}
+.slider-cont {
+    margin-top: 50px;
+}
+.login {
+    text-align: center;
+    padding-top: 20px;
+}
+#score-h4 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

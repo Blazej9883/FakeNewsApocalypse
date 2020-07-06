@@ -49,7 +49,7 @@ function initApp() {
     elem.addEventListener("input", rangeValue);
 
     document.getElementById('reason').addEventListener('submit', submitForm, false);
-    document.getElementById('logout').addEventListener('click', logout, false);
+    document.getElementById('logout-btn').addEventListener('click', logout, false);
 }
 //checkers
 function checkScore(url) {
@@ -65,7 +65,7 @@ function checkScore(url) {
 
                 var score = scores[k].score;
                 console.log("checkScore: score:" + score);
-                document.getElementById("score").textContent = score.toString();
+                document.getElementById("score-h4").textContent = score.toString();
 
             }
         }else{
@@ -148,6 +148,8 @@ function submitReview(url_site, uid, reason, score,e){
         }
     });
 
+
+
     var ratingsRef = firebase.database().ref("reviews");
     ratingsRef.orderByChild("news").equalTo(url_site).on("value", function (snapshot) {
         var scores = snapshot.val();
@@ -158,12 +160,16 @@ function submitReview(url_site, uid, reason, score,e){
             var keys = Object.keys(scores);
 
             console.log(keys);
-
+///////opercje na liczbach
             var scoreRef = firebase.database().ref("reviews/"+ keys);
             scoreRef.transaction(function (review) {
                 console.log("scoreRef:")
                 console.log(review)
-                    review.rating_count++;
+                //dodac score do full score
+                //podzielic full score przez rating_count
+                //ustawic score na wczesniejszy wynik
+                //     review.full_score = review.full_score + score;
+
                     return;
             })
             // scoreRef.on("value", function (snapshot) {
@@ -174,6 +180,7 @@ function submitReview(url_site, uid, reason, score,e){
         }else {
             console.log("submitReview: snapshot null")
             firebase.database().ref('reviews').push({
+                full_score: score,
                 news: url_site,
                 rating_count: 1,
                 reason: reason,
